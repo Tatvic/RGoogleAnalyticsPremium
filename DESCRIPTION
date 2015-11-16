@@ -1,0 +1,14 @@
+Package: RGoogleAnalyticsPremium
+Type: Package
+Title: Unsampled Data in R for Google Analytics Premium Accounts
+Version: 0.1.1
+Date: 2015-10-21
+Author: Jalpa Joshi Dave
+Maintainer: Jalpa Joshi Dave <jalpa@tatvic.com>
+Description: It fires a query to the API to get the unsampled data in R for Google Analytics Premium Accounts. It retrieves data from the Google drive document and stores it into the local drive. The path to the excel file is returned by this package. The user can read data from the excel file into R using read.csv() function.
+License: Apache License 2.0
+Depends: R(>= 3.2.2), httr, lubridate, jsonlite, utils
+LazyData: TRUE
+NeedsCompilation: no
+Repository: CRAN
+
