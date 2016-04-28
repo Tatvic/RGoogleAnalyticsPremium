@@ -35,19 +35,11 @@ ToBody <- function(query.builder,token) {
 
 
     if (!is.null(postbody.name)) {
-      postbody <- paste(postbody,'"',
-                   URLencode(postbody.name, reserved = TRUE),'"',
-                   ":",'"',
-                   URLencode(query[[name]], reserved = FALSE),'"',
-                   ",",
-                   sep = "",
-                   collapse = "")
+      postbody <- paste(postbody, '"', postbody.name, '":"', query[[name]], '",', sep = "", collapse = "")
     }
   }
   # remove the last '&' that joins the query parameters together.
   postbody <- sub(",$", "",postbody)
-  # remove any spaces that got added in from bad input.
-  postbody <- gsub("\\s", "", postbody)
   postbody <- paste(postbody,"}",sep = "")
   return(postbody)
 }
