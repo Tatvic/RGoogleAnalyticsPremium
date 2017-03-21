@@ -41,32 +41,34 @@ GetFile <- function(query.builder, token, accountid, webpropertyid, profileid) {
   res <- GetPostResponse(query.uri,postbody,token)
 
   if (status_code(res) == 200) {
-     cat("Request to API successfully fired.\n")
-  }
-  else {
-    cat("Request unsuccessfull.. please try again.\n")
-
+    cat("Request to API successfully fired.\n")
+  } else {
+    error_content <- content(res)
+    cat(paste('Error', error_content$error$code, error_content$error$message))
+    return (error_content)
   }
 
   #' Code to get the drive document id
-  repeat
-  {
+  repeat {
     id <- content(res)$id
-      if(!is.null(id))
-    { break }
+    if(!is.null(id)){
+      break
+    }
   }
 
   uri <- paste(query.uri,id,sep = "/")
   cat("Downloading of data is in progress.. ")
-  repeat
-  {
-      load("token_files")
-      ValidateToken(token)
-      tok <- paste("Bearer", token$credentials$access_token)
-      resp <- GET(uri,add_headers(Authorization = tok))
-      data_json <- fromJSON(content(resp, as = "text"), simplifyVector = TRUE, flatten = flatten)
-      if(!is.null(data_json$driveDownloadDetails$documentId))
-        { break }
+
+  repeat {
+    load("token_files")
+    ValidateToken(token)
+    tok <- paste("Bearer", token$credentials$access_token)
+    resp <- GET(uri,add_headers(Authorization = tok))
+    data_json <- fromJSON(content(resp, as = "text"), simplifyVector = TRUE, flatten = flatten)
+
+    if(!is.null(data_json$driveDownloadDetails$documentId)){
+      break
+    }
   }
 
   #print(data_json$driveDownloadDetails$documentId)
